@@ -37,15 +37,15 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "django.contrib.gis",
-    "django_filters",
     "rest_framework",
+    "django_filters",
     "rest_framework_gis",
     "drf_yasg",
     "farm_base",
 ]
 
 REST_FRAMEWORK = {
-    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend"),
 }
 
 MIDDLEWARE = [
