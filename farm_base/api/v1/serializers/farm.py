@@ -10,16 +10,16 @@ from farm_base.models import Farm
 class FarmListSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         super(FarmListSerializer, self).__init__(*args, **kwargs)
-        request = kwargs['context']['request']
-        include_geometry = request.GET.get('include_geometry', "false")
+        request = kwargs["context"]["request"]
+        include_geometry = request.GET.get("include_geometry", "false")
 
         if include_geometry.lower() == "true":
-            self.fields['geometry'] = GeometryField(read_only=True)
+            self.fields["geometry"] = GeometryField(read_only=True)
 
     class Meta:
         model = Farm
-        fields = ['id', 'name', 'centroid', 'area']
-        read_only_fields = ['id', 'centroid', 'area']
+        fields = "__all__"
+        read_only_fields = ["id", "centroid", "area"]
 
 
 class FarmCreateSerializer(serializers.ModelSerializer):
@@ -32,8 +32,8 @@ class FarmCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Farm
-        fields = ['id', 'name', 'geometry', 'centroid', 'area']
-        read_only_fields = ['id', 'centroid', 'area']
+        fields = "__all__"
+        read_only_fields = ["id", "centroid", "area"]
 
 
 class FarmDetailSerializer(serializers.ModelSerializer):
@@ -41,5 +41,5 @@ class FarmDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Farm
-        fields = '__all__'
-        read_only_fields = ['id', 'centroid', 'area']
+        fields = "__all__"
+        read_only_fields = ["id", "centroid", "area"]
