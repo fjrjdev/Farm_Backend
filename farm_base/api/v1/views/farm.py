@@ -9,8 +9,7 @@ from farm_base.models import Farm, Owner
 from farm_base.api.v1.filters import FarmFilter
 from django_filters import rest_framework as filters
 
-from rest_framework.views import APIView, Request, Response, status
-from django.shortcuts import get_object_or_404
+from rest_framework.views import Request, Response, status
 
 
 class FarmListCreateView(generics.ListCreateAPIView):
@@ -30,10 +29,10 @@ class FarmListCreateView(generics.ListCreateAPIView):
             )
             farm = Farm.objects.filter(owner__in=owner)
             serializer = self.get_serializer(farm, many=True)
-            return Response(serializer.data)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
 
         serializer = self.get_serializer(queryset, many=True)
-        return Response(data=serializer.data)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def get_serializer_class(self):
         if self.request.method == "GET":
