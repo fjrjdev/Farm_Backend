@@ -16,6 +16,3 @@ RUN apt-get -y --no-install-recommends install libsqlite3-dev libsqlite3-mod-spa
 
 RUN apt-get -y --no-install-recommends install libgdal-dev gdal-bin
 
-EXPOSE 8000
-ENTRYPOINT ["python", "manage.py"]
-CMD ["runserver", "0.0.0.0:8000"]
