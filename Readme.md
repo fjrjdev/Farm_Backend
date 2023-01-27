@@ -10,7 +10,7 @@
 
 First, clone the repository:
 ```shell
-$ git clone https://bitbucket.org/agrosatelite/farm-project.git
+$ git clone git@github.com:fjrjdev/Farm_Backend.git
 ```
 
 After, install python development package:
