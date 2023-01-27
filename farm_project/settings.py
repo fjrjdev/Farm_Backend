@@ -25,7 +25,12 @@ SECRET_KEY = "tjkgtg+%h^wiaibsdq%(ok4a6s6+^g5z=3(xg^5#0&gxtdb1gh"
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "http://localhost:4200"
+]
+CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,6 +47,7 @@ INSTALLED_APPS = [
     "rest_framework_gis",
     "drf_yasg",
     "farm_base",
+    "corsheaders"
 ]
 
 
@@ -53,6 +59,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "farm_project.urls"
