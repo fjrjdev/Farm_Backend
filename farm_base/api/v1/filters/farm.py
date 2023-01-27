@@ -9,7 +9,6 @@ class FarmFilter(filters.FilterSet):
         field_name="municipality", lookup_expr="icontains"
     )
     state = filters.CharFilter(field_name="state", lookup_expr="icontains")
-    id = NumberInFilter(field_name="id", lookup_expr="in")
 
     class Meta:
         model = Farm
