@@ -18,9 +18,8 @@ class FarmListCreateView(generics.ListCreateAPIView):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = FarmFilter
 
-    def list(self, request: Request, *args, **kwargs) -> Response:
-        queryset = Farm.objects.filter(is_active=True)
-
+    def get_queryset(self):
+        queryset = super().get_queryset()
         owner_name = self.request.query_params.get("owner_name", None)
         document = self.request.query_params.get("document", None)
         if owner_name or document:
@@ -28,11 +27,8 @@ class FarmListCreateView(generics.ListCreateAPIView):
                 document=document
             )
             farm = Farm.objects.filter(owner__in=owner)
-            serializer = self.get_serializer(farm, many=True)
-            return Response(data=serializer.data, status=status.HTTP_200_OK)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+            self.filter = self.filterset_class(self.request.GET, queryset=farm)
+            return self.filter.qs
 
     def get_serializer_class(self):
         if self.request.method == "GET":
