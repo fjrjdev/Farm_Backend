@@ -5,9 +5,12 @@ from farm_base.api.v1.serializers import (
     FarmCreateSerializer,
     FarmDetailSerializer,
 )
-from farm_base.models import Farm
+from farm_base.models import Farm, Owner
 from farm_base.api.v1.filters import FarmFilter
 from django_filters import rest_framework as filters
+
+from rest_framework.views import APIView, Request, Response, status
+from django.shortcuts import get_object_or_404
 
 
 class FarmListCreateView(generics.ListCreateAPIView):
@@ -15,6 +18,22 @@ class FarmListCreateView(generics.ListCreateAPIView):
     serializer_class = FarmListSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = FarmFilter
+
+    def list(self, request: Request, *args, **kwargs) -> Response:
+        queryset = Farm.objects.filter(is_active=True)
+
+        owner_name = self.request.query_params.get("owner_name", None)
+        document = self.request.query_params.get("document", None)
+        if owner_name or document:
+            owner = Owner.objects.filter(name=owner_name) | Owner.objects.filter(
+                document=document
+            )
+            farm = Farm.objects.filter(owner__in=owner)
+            serializer = self.get_serializer(farm, many=True)
+            return Response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(data=serializer.data)
 
     def get_serializer_class(self):
         if self.request.method == "GET":
